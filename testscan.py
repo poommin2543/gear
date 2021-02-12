@@ -23,8 +23,10 @@ def findnum(IDset):
             Data = [[counts, time.strftime(
                 "%D " + "%H"+":"+"%M"+":"+"%S"), IDbot.get(), 1]]
             #print('is Engineering')
-            print(IDbot.get())
+            print("No."+str(counts),end=" ")
+            print(IDbot.get(),end=" ")
             print(time.strftime("%H"+":"+"%M"+":"+"%S"))
+            print("Yes")
             with open('Data1', 'a') as csv_file:
                 mydata = csv.writer(csv_file)
                 mydata.writerow(Data)
@@ -37,8 +39,10 @@ def findnum(IDset):
         Data = [[count1, time.strftime(
                 "%D " + "%H"+":"+"%M"+":"+"%S"), IDbot.get(), 1]]
           #print('is Engineering')
-        print(IDbot.get())
+        print("No."+str(count1),end=" ")
+        print(IDbot.get(),end=" ")
         print(time.strftime("%H"+":"+"%M"+":"+"%S"))
+        print("No!!")
         with open('Data2', 'a') as csv_file:
              mydata = csv.writer(csv_file)
              mydata.writerow(Data)
@@ -59,12 +63,14 @@ def clearBox():
 Screen = Tk()
 
 IDset = []
+IDName =[]
 CountStudent = 0
 Scanner = 0
 with open('Database.csv', newline="") as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         IDset.append(row['ID'])
+        IDName.append(row)
         CountStudent = CountStudent + 1
 print(CountStudent)
 
