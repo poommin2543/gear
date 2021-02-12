@@ -10,27 +10,31 @@ counts = 0
 count1 = 0
 
 
-def findnum(IDset):
+def findnum(IDset,ZONE):
     x = 0
     i = 0
+    o = 0
     t = ''
     global counts,count1
 
     for n in IDset:
 
         if(IDbot.get() == str(IDset[x])):
+            
             counts += 1
             Data = [[counts, time.strftime(
-                "%D " + "%H"+":"+"%M"+":"+"%S"), IDbot.get(), 1]]
+                "%D " + "%H"+":"+"%M"+":"+"%S"), IDbot.get(), ZONE[x]]]
             #print('is Engineering')
             print("No."+str(counts),end=" ")
             print(IDbot.get(),end=" ")
             print(time.strftime("%H"+":"+"%M"+":"+"%S"))
-            print("Yes")
+            print("Yes. Zone.",end="")
+            print(ZONE[x])
             with open('Data1', 'a') as csv_file:
                 mydata = csv.writer(csv_file)
                 mydata.writerow(Data)
-            lable2.config(text='มีสิทธิ์รับเกียร์')
+            lable2.config(text=IDset[x]+' มีสิทธิ์รับเกียร์')
+            lable3.config(text="โซน "+(ZONE[x]))
             clearBox()
             i = 1
         x = x + 1
@@ -43,10 +47,12 @@ def findnum(IDset):
         print(IDbot.get(),end=" ")
         print(time.strftime("%H"+":"+"%M"+":"+"%S"))
         print("No!!")
+        #print(IDbot.get())
         with open('Data2', 'a') as csv_file:
              mydata = csv.writer(csv_file)
              mydata.writerow(Data)
-        lable2.config(text='ไม่มีสิทธิ์')
+        lable2.config(text='ไม่มีสิทธิ์', font=("THsarabunPSK", 60))
+        lable3.config(text=IDbot.get(), font=("THsarabunPSK", 40))
         clearBox()
 
 def test1(event):
@@ -63,14 +69,14 @@ def clearBox():
 Screen = Tk()
 
 IDset = []
-IDName =[]
+ZONE =[]
 CountStudent = 0
 Scanner = 0
 with open('Database.csv', newline="") as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         IDset.append(row['ID'])
-        IDName.append(row)
+        ZONE.append(row['ZONE'])
         CountStudent = CountStudent + 1
 print(CountStudent)
 
@@ -78,21 +84,26 @@ print(CountStudent)
 ############################################
 IDbot = StringVar()
 LBtext = StringVar()
-Screen.geometry("500x200")
+Screen.geometry("652x300")
+
 Screen.title("ระบบเช็คสิทธิ์ งานสร้อยน้องคล้องเกียร์พี่ครั้งที่ 6")
-IDlable = Label(Screen, text="ใส่รหัสนักศึกษา", font=("THsarabunPSK", 20))
+IDlable = Label(Screen, text="ใส่รหัสนักศึกษา", font=("THsarabunPSK", 50))
 IDlable.pack()
 lable2 = Label(Screen, text='', font=("THsarabunPSK", 40), anchor='s')
+lable3 = Label(Screen, text='', font=("THsarabunPSK", 60), anchor='s')
 
 IDtext = Entry(Screen, textvariable=IDbot)
 IDtext.pack()
 
-B1 = Button(Screen, text="ตรวจสอบ", command=lambda: findnum(IDset))
-print(IDset)
+B1 = Button(Screen, text="ตรวจสอบ", command=lambda: findnum(IDset,ZONE))
+
+#print(IDset)
+#print(ZONE)
 B1.pack()
 
 Screen.bind('<Down>', test1)
 
 
 lable2.pack()
+lable3.pack()
 Screen.mainloop()
